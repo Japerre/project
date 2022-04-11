@@ -1,0 +1,22 @@
+{
+  "subjects": [
+    {
+      "id": 1,
+      "title": "elektromagnetische straling beoordelen",
+      "promotor": "jan",
+      "coPromotor": "bart",
+      "targetGroups": "technologiecampus",
+      "disciplines": "technology, radiology",
+      "amountOfStudents": 1
+    },
+    {
+      "id": 2,
+      "title": "een kikker ontdarmen",
+      "promotor": "jeroen baert",
+      "coPromotor": "lobke",
+      "targetGroups": "camus deaneyre",
+      "disciplines": "natuurkunde, radiology",
+      "amountOfStudents": 2
+    }
+  ]
+}

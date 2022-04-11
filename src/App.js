@@ -1,24 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import Subject from "./components/Subject";
+import Subjects from "./components/Subjects";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import { useState, useEffect } from "react";
+import SubjectDetail from "./components/SubjectDetail";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Nav from "./components/Nav";
+import axios from "axios";
 
 function App() {
+  const [subjects, setSubjects] = useState([]);
+
+  //use effect laadt alles in bij refresh
+  useEffect(() => {
+    const getSubjects = async () => {
+      const subjectsFromServer = await fetchSubjects();
+      const subjects = [];
+      subjectsFromServer.forEach((subject) => {
+        const temp = {
+          id: subject.subjectId,
+          title: subject.titel,
+          promotor: "jeroen baert",
+          coPromotor: "lobke",
+          targetGroups: "camus deaneyre",
+          disciplines: "natuurkunde, radiology",
+          amountOfStudents: subject.aantalStudenten,
+        };
+        subjects.push(temp);
+      });
+      //console.log(subjects)
+      setSubjects(subjects);
+    };
+
+    getSubjects();
+  }, []);
+
+
+  const fetchSubjects = async () => {
+    const response = await axios.get("http://localhost:8080/subjects", {
+      headers: { Authorization: localStorage.getItem("token") },
+    });
+
+    return response.data;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Nav />
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home subjects={subjects} />} />
+          <Route path="/subject/:id" element={<SubjectDetail />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
